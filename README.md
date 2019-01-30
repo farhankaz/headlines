@@ -2,7 +2,7 @@
 Simple demonstration of using Http4s with Monix Task and Cats IO effect interpreters
 
 ## Instructions
-Run `sbt run` and select application to run:
+Run `sbt run` and select the main class to run:
 * `com.example.headlines.IOMain` for Cats IO
 * `com.example.headlines.MonixMain` for Monix Task
 
