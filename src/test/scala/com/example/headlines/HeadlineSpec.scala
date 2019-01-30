@@ -32,5 +32,5 @@ class HeadlineSpec extends org.specs2.mutable.Specification {
     retHeadlines.status must beEqualTo(Status.Ok)
 
   private[this] def uriReturnsHeadlines(): MatchResult[String] =
-    retHeadlines.as[String].unsafeRunSync() must beEqualTo("test headline1\ntest headline2\n")
+    retHeadlines.as[String].unsafeRunSync() must beEqualTo("test headline1\ntest headline2")
 }

@@ -16,7 +16,8 @@ object HeadlinesRoutes {
           // makes effectful call to retrieve headlines and streams them as strings
           Stream.eval(headlinesService.scrape())
             .flatMap(Stream.emits(_))
-            .map(_.name + "\n")
+            .map(_.name)
+            .intersperse("\n")
         )
     }
   }

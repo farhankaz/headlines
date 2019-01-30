@@ -1,4 +1,4 @@
-# headlines
+# Headlines
 Simple demonstration of using Http4s with Monix Task and Cats IO effect interpreters
 
 ## Instructions
@@ -12,7 +12,8 @@ scrapes headlines (h2 tags) from [http://www.nytimes.com](http://www.nytimes.com
 
 Some notes about the implementation:
 * Uses Blaze - an NIO backed non-blocking HTTP server that is part of the http4s project
-* Uses parameterized effect types i.e. F[_]:Effect.  Thus allowing Cats IO or Monix Task interpretations
+* Parameterizes the effect types i.e.\[F\[_\]:Effect\]\].  Thus allowing Cats IO or Monix Task interpretations
 * Uses http4s/Blaze http client to retrieve html
 * Uses [scala scraper](https://github.com/ruippeixotog/scala-scraper) to parse h2 tags
 * Simple demonstration of unit testing http4s `HttpRoutes` using specs2 
+****
