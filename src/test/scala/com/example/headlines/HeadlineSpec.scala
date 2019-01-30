@@ -1,11 +1,10 @@
 package com.example.headlines
 
 import cats.effect.IO
+import cats.implicits._
 import org.http4s._
 import org.http4s.implicits._
 import org.specs2.matcher.MatchResult
-import cats.implicits._
-import com.example.headlines.HeadlinesService.Headline
 
 class HeadlineSpec extends org.specs2.mutable.Specification {
 
@@ -21,7 +20,7 @@ class HeadlineSpec extends org.specs2.mutable.Specification {
   private[this] val retHeadlines: Response[IO] = {
     val getHW = Request[IO](Method.GET, Uri.uri("/"))
     val headlines = new HeadlinesService[IO] {
-      override def scrape(): IO[List[HeadlinesService.Headline]] = List(
+      override def scrape(): IO[List[Headline]] = List(
         Headline("test headline1"),
         Headline("test headline2"),
       ).pure[IO]

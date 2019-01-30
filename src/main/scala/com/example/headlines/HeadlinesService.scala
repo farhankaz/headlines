@@ -5,27 +5,26 @@ import cats.implicits._
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors.elementList
+import org.http4s.Uri
 import org.http4s.client.Client
-import org.http4s.client.blaze.BlazeClientBuilder
-
-import scala.concurrent.ExecutionContext.global
 
 trait HeadlinesService[F[_]] {
-  def scrape():F[List[HeadlinesService.Headline]]
+  def scrape():F[List[Headline]]
 }
 
-object HeadlinesService {
-  final case class Headline(name:String)
+final case class Headline(name:String)
 
-  def nyTimesHeadlinesService[F[_]](implicit F:Effect[F]): HeadlinesService[F] = new HeadlinesService[F]{
-    val browser = JsoupBrowser()
-    def scrape(): F[List[HeadlinesService.Headline]] = {
-      F.delay {
-        (browser.get("http://nytimes.com") >> elementList("h2"))
-          .map(_.text)
-          .distinct.sorted
-          .map(Headline)
-      }
-    }
-  }
+class NyTimesHeadlinesService[F[_]:Effect](httpClient:Client[F]) extends HeadlinesService[F] {
+
+  val browser = JsoupBrowser()
+  val uri = Uri.uri("http://nytimes.com")
+
+  override def scrape(): F[List[Headline]] = httpClient
+    .expect[String]("http://nytimes.com")
+    .map(html => {
+      (browser.parseString(html) >> elementList("h2"))
+        .map(_.text)
+        .distinct.sorted
+        .map(Headline)
+    })
 }
