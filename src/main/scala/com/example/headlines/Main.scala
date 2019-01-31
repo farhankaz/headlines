@@ -30,16 +30,15 @@ object MonixMain extends IOApp {
   */
 object IOMain extends IOApp {
 
-  def run(args: List[String]) = {
+  def run(args: List[String]) =
     BlazeServer.stream[IO].compile.drain.as(ExitCode.Success)
-  }
 
 }
 
 object BlazeServer {
   import org.http4s.implicits._
 
-  def stream[F[_]: ConcurrentEffect](implicit T: Timer[F]): Stream[F, ExitCode] = {
+  def stream[F[_]: ConcurrentEffect](implicit T: Timer[F]): Stream[F, ExitCode] =
     for {
       client <- BlazeClientBuilder[F](global).stream
       clientWithMiddleware = FollowRedirect(3)(client)
@@ -50,5 +49,4 @@ object BlazeServer {
         .withHttpApp(routes)
         .serve
     } yield exitCode
-  }
 }

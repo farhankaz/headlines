@@ -14,6 +14,14 @@ trait HeadlinesService[F[_]] {
 
 final case class Headline(name:String)
 
+/**
+  * Calls nytimes.com to retrieve home page HTML for NY Times. Parses all h2 tags
+  * as Headline instances
+  *
+  * @param httpClient
+  * @param effect$F
+  * @tparam F
+  */
 class NyTimesHeadlinesService[F[_]:Effect](httpClient:Client[F]) extends HeadlinesService[F] {
 
   val browser = JsoupBrowser()
